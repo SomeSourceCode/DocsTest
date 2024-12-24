@@ -1,0 +1,92 @@
+---
+title: Quickstart
+description: Get started using SomeGuiApi.
+---
+
+## Is This the Right Guide for Me?
+
+Hey! This guide is for developers who know their way around Java. If you’re after a way to build GUIs without coding,
+you might wanna check out [SomeGuiApi NoCode]() instead.
+
+## Setup Your Dev Environment
+
+Getting your development environment set up is quick and easy. Just follow these steps:
+
+<Steps>
+
+<Step title="Download The Plugin">
+Head over to [Github](https://github.com/SomeSourceCode/SomeGuiApi/releases)
+and Download the latest plugin.
+</Step>
+
+<Step title="Install The Plugin">
+Place the downloaded `JAR` file inside your servers `plugins` folder.
+</Step>
+
+<Step title="Configure Your Plugin">
+Ensure that any plugins using SomeGuiApi include it in the `depend` section of their `plugin.yml` file:
+
+```yaml title="plugin.yml"
+depend: [SomeGuiApi]
+```
+</Step>
+
+<Step title="Add The Dependency">
+Finally, add the [dependency](#adding-the-dependency) to your project.
+</Step>
+
+</Steps>
+
+## Adding The Dependency
+
+<Tabs>
+
+<Tab tabTitle="Maven" tabId="maven">
+If you're using Maven, just add the following dependency to your `dependencies` section
+of your `pom.xml` file.
+
+```xml title="pom.xml"
+<dependency>
+    <groupId>io.github.somesourcecode</groupId>
+    <artifactId>someguiapi</artifactId>
+    <version>2.1.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+</Tab>
+
+<Tab tabTitle="Gradle" tabId="gradle">
+For Gradle you need to include the repository and dependency as shown here:
+
+```gradle title="gradle.build.kt"
+repositories {
+    mavenCentral()
+    maven { url = uri('https://repo.somesourcecode.io/repository/maven-public/') }
+}
+
+dependencies {
+    compileOnly 'io.github.somesourcecode:someguiapi:2.1.0'
+}
+```
+</Tab>
+
+</Tabs>
+
+## Troubleshooting
+
+If you run into any issues or have questions, feel free to ask in the [Discord](https://discord.com).
+
+### Common Issues
+
+<AccordionGroup>
+
+<Accordion title="ClassNotFoundException">
+Using the API throwing a `ClassNotFoundException` can have several reasons.
+- Make sure that the version of your plugin and the API version
+  are compatible, you can check that [Here]().
+</Accordion>
+<Accordion title="Second Common Issue">
+And steps to resolve it
+</Accordion>
+
+</AccordionGroup>

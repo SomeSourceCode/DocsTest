@@ -1,0 +1,149 @@
+{
+    "defaultUrl": "quickstart",
+    "languages": [ "en-US", "en-UK", "de-DE", "de-DE" ],
+    "defaultVersion": "#latest-stable",
+    "versions": [
+        {
+            "identifier": "1.0.0",
+            "title": "v1.0.0"
+        },
+        {
+            "identifier": "2.0.0",
+            "title": "v2.0.0"
+        },
+        {
+            "identifier": "2.1.0",
+            "title": "v2.1.0"
+        },
+        {
+            "identifier": "3.0-beta",
+            "title": "v3.0-beta",
+            "stable": false
+        }
+    ],
+    "structure": {
+        "general": [
+            {
+                "url": "quickstart",
+                "path": "quickstart"
+            }
+        ],
+        "categories": [
+            {
+                "title": "Get Started",
+                "version": "2.0.0...",
+                "content": [
+                    {
+                        "url": "creating-guis",
+                        "path": "get-started/creating-guis"
+                    },
+                    {
+                        "url": "gui-types",
+                        "path": "get-started/gui-types",
+                        "content": [
+                            {
+                                "url": "gui-types/chest-gui",
+                                "path": "get-started/gui-types/chest-gui"
+                            },
+                            {
+                                "url": "gui-tpes/barrel-gui",
+                                "path": "get-started/gui-types/barrel-gui",
+                                "version": "#latest"
+                            }
+                        ]
+                    }                  
+                ]
+            },
+            {
+                "title": "Layout",
+                "content": [
+                    {
+                        "url": "layout",
+                        "path": "layout/layout",
+                        "version": "2.1.0;3.0-beta...#latest-stable;2.1.0"
+                    },
+                    {
+                        "url": "layout/panes",
+                        "path": "layout/panes",
+                        "content": [
+                            {
+                                "url": "layout/flow-pane",
+                                "path": "layout/panes/flow-pane"
+                            },
+                            {
+                                "url": "layout/h-box",
+                                "path": "layout/panes/h-box"
+                            },
+                            {
+                                "url": "layout/v-box",
+                                "path": "layout/panes/v-box"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Components",
+                "content": [
+                    {
+                        "url": "components",
+                        "path": "components/components"
+                    },
+                    {
+                        "url": "components/progress-bar",
+                        "path": "components/progress-bar"
+                    }
+                ]
+            },
+            {
+                "title": "Events",
+                "content": [
+                    {
+                        "url": "events",
+                        "path": "events/events",
+                        "content": [
+                            {
+                                "url": "events/click",
+                                "path": "events/type/click"
+                            }
+                        ]
+                    },
+                    {
+                        "url": "event-bubbling",
+                        "path": "events/bubbling"
+                    }
+                ]
+            },
+            {
+                "title": "States",
+                "content": [
+                    {
+                        "url": "states",
+                        "path": "states/states"
+                    },
+                    {
+                        "url": "state-interactions",
+                        "path": "states/state-interactions"
+                    },
+                    {
+                        "url": "state-changes",
+                        "path": "states/state-changes"
+                    },
+                    {
+                        "url": "state-validation",
+                        "path": "states/state-validation"
+                    }
+                ]
+            },
+            {
+                "title": "Data Management",
+                "content": [
+                    {
+                        "url": "data",
+                        "path": "data"
+                    }
+                ]
+            }
+        ]
+    }
+}

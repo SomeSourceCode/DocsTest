@@ -1,0 +1,148 @@
+---
+title: Layout
+description: |
+    Understanding the layout system in SomeGuiApi is crucial for building effective GUIs.
+    This guide will help you grasp the basics of the layout system, including its coordinate system, hierarchy, and properties.
+---
+
+## Layout System
+
+Like most GUI systems, SomeGuiApi uses the typical computer coordinate system, where the origin `(0, 0)` is at the top-left corner of the screen. The x-axis extends to the right, and the y-axis extends downwards.
+This means that as you move right, the x-coordinate increases, and as you move down, the y-coordinate increases.\
+The dimensions align with the slots of Minecraft's inventories.
+
+<Frame rounded={false} overflowBottom>
+	![Layout Axis](/images/layout-system.png)
+</Frame>
+
+Following that logic, the marked area has the following properties:
+- Coordinates: `(2, 1)`
+- Size: `4x3` (width x height)
+
+## Hierarchy
+
+The layout of a GUI is determined by the layout tree structure, which consists of `Nodes` that can be parents or leaf nodes.
+Each node can have multiple children, but only one parent. `Parents` are usually a type of [`Pane`](/panes), the ultimate leaf nodes will be `GuiItems`.
+
+<Note>
+	Adding a node that already has a parent to a new parent will remove it from its old parent and add it to the new one.
+</Note>
+
+`Nodes` can be arbitrarily nested, allowing for complex layouts. Note that a node can only be the child of at most one other node.
+The coordinates of a `Node` are always relative to its direct `Parent`. Suppose you add a `GuiItem` at `(1, 1)` inside the above mentioned region, this is
+where it will be placed:
+
+<Frame rounded={false} overflowBottom>
+	![Nested Nodes](/images/layout-nested-coords.png)
+</Frame>
+
+The root of the layout tree is contained in a `Scene`, which is the top-level container for all GUI elements.
+
+<Warning>
+	An attempt to add a `Node` to a `Parent` will fail with an `IllegalStateException` if the addition would create a cyclic dependency.
+
+	Consider a parent `A` with a child `B` that in turn has a child `C` (`A` -> `B` -> `C`). An attempt to add `A` as a child of `C` would create a
+	cycle (`C` -> `A` -> `B` -> `C`), which is not allowed and will throw an exception.
+</Warning>
+
+## Layout Properties
+
+Every `Node` has a few basic layout properties:
+
+### `layoutX` and `layoutY`
+
+These properties define the position of the node relative to its parent. They can be set via the `setLayoutX()` and `setLayoutY()` methods.
+To set both at once, you can use the `setLayout()` method, `Node` provides a shorthand for this:
+
+```java
+node.relocate(2, 1);
+```
+
+This is equivalent to:
+
+```java
+node.setLayoutX(2);
+node.setLayoutY(1);
+```
+
+Most [layout panes](/layout/panes) will automatically set these properties for their children based on their layout strategy.
+
+### `translateX` and `translateY`
+
+The final x and y coordinates of a `Node` are not just determined by its `layoutX` and `layoutY` properties, but also by its `translateX` and `translateY` properties.
+These properties allow you to apply a translation to the node, effectively moving it relative to its layout position. The final coordinates of a node are therefore calculated as follows:
+
+```
+x = layoutX + translateX
+y = layoutY + translateY
+```
+
+\
+`Regions` are a type of `Node` with additional properties that control their size and clipping:
+
+### `width` and `height`
+
+These properties define the size of the node and can be retrieved via the `getWidth()` and `getHeight()` methods. The properties are read-only, unless the `Node` is
+a `Region`, which provides `setWidth()` and `setHeight()` methods to change the size of the node.
+There's also a shorthand to set both at once:
+
+```java
+node.resize(4, 3);
+```
+
+This is equivalent to:
+
+```java
+node.setWidth(4);
+node.setHeight(3);
+```
+
+<Info>
+	To resize **and** reposition a node, you can use the `resizeRelocate()` method (only for `Region`s):
+
+	```java
+		node.resizeRelocate(4, 3, 2, 1);
+	```
+
+	This moves the node to `(2, 1)` and resizes it to `4x3`.
+</Info>
+
+### Clipping
+
+Each node has a bounding box defined by its position and size. If a node's content exceeds this bounding box, the `clipping` property
+determines whether that content is shown (`true`) or hidden (`false`).
+
+For example, if a `Parent` node has a size of `4x3` and a child node is positioned at `(3, 2)` with a size of `2x2`, the child node will be
+partially clipped if the clipping property is set to `true`:
+
+<Frame rounded={false} overflowBottom>
+	![Clipping Example](/images/layout-clipping-example.png)
+</Frame>
+
+## Layout Updates
+
+Changes to layout properties and/or tree will automatically request a layout update that is applied the next time the GUI is rendered.
+
+To update the GUI, the `Gui` class provides an `update()` method. That takes care of recalculating changed layout properties.\
+\
+If there haven't been any layout updates since the last update, the rendering is skipped. There are cases however, where you want to rerender the GUI regardless,
+e.g. if metadata such as lore of an item has changed, which is not automatically picked up by the API by default. In those cases you can request
+a rerender by calling the `requestRender()` method.
+This doesn't update the layout, but just flags the GUI for a rerender, which means that you still need to call the `update()` method afterwards to apply the changes:
+
+```java
+gui.requestRender();
+gui.update();
+```
+
+To automatically call `update()` after requesting a render, you can pass `true` to the `requestRender()` method:
+
+```java
+gui.requestRender(true);
+```
+
+This is equivalent to the code above.
+
+<Info>
+	An update is also performed when showing the GUI to a player via the `show()` method.
+</Info>

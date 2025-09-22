@@ -1,0 +1,80 @@
+---
+title: GUI Types
+description: SomeGuiApi provides several different GUI types.
+---
+
+## Understanding GUI Types
+
+GUIs are split into two main categories, scene-based and static.
+
+<Note>
+	The `Merchant GUI` is an exception and doesn't fit in those categories.
+</Note>
+
+### Scene GUIs
+
+Most GUIs are scene-based, featuring a grid of item slots. We call this grid a Scene,
+which holds the content of the GUI.
+\
+[Image illustrating that point]
+
+
+<Accordion title="Populating A Scene GUI">
+	Alright, let's break this down with an example using a `ChestGui`. Here's how you get started:
+
+	1. **Create a new instance of `ChestGui`:**\
+		Just like you did before!
+
+		```java
+		ChestGui gui = new ChestGui("Title", 3);
+		```
+
+	2. **Set up the content inside a root node:**\
+		The content will be living inside a root node of type `Parent`. This can be a `Pane`, for example.
+
+		```java
+		Pane root = new Pane();
+		root.resize(9, 3);
+		root.getChildren().add(/* Content goes here */);
+		```
+
+		<Warning>
+			Remember to resize the root! Otherwise, it won't be visible.
+		</Warning>
+
+	3. **Create a `Scene`**\
+		Wrap the root inside a `Scene` and pass it to the GUI:
+
+		```java
+		Scene scene = new Scene(root);
+		gui.setScene(scene);
+		```
+
+	And just like that, you've populated a scene-based GUI!
+</Accordion>
+
+<Info>
+	Typical scene-based GUIs are those with type of `Chest`, `Dropper`, `Hopper`, ...
+</Info>
+
+### Static GUIs
+
+GUIs containing only single item slots are static GUIs. They don't contain a scene,
+instead you populate each slot individually.
+
+<Accordion title="Populating A Static GUI">
+	I actually haven't implemented that functionality yet...
+</Accordion>
+
+<Info>
+	Examples include GUIs of type `Anvil`, `Beacon`, `Brewing Stand`, `Furnace`, ...
+</Info>
+
+### Hybrids
+
+Hybrid GUIs combine both concepts. It is those GUIs that contain a
+grid as well as singular item slots.
+
+<Info>
+	An example for such a hybrid GUI is the `WorkbenchGUI`.
+</Info>

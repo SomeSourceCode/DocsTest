@@ -1,0 +1,30 @@
+---
+title: HBox
+description: A horizontal box layout that arranges its children in a single row.
+---
+
+## Layout
+
+The `HBox` is a type of `Pane` that arranges its children in a single horizontal row without wrapping.
+
+<Frame rounded={false} overflowBottom>
+	![HBox Layout](/images/layout-hbox.png)
+</Frame>
+
+## Properties
+
+Apart from the [common properties](layout/panes#shared-pane-properties) that all panes have, the `HBox` has the following specific properties:
+
+### `spacing`
+
+The `spacing` property defines the space between each child in the `HBox`. It is set using the `setSpacing(int spacing)` method.
+
+```java
+hbox.setSpacing(1);
+```
+
+This would produce a layout where each child has a space of 1 slot between them:
+
+<Frame rounded={false} overflowBottom>
+	![HBox Spacing](/images/layout-hbox-spacing.png)
+</Frame>

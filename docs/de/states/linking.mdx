@@ -1,0 +1,165 @@
+---
+title: Linking of States
+shortTitle: Linking
+description: Link states together to create dynamic and interactive GUIs!
+---
+
+## Reflect
+
+A mutable `State` can reflect the value of another one (mutable or read-only). To do this, you can use the `reflect()` method:
+Ein veränderbarer `State` kann den Wert eines anderen (veränderbaren oder schreibgeschützten) widerspiegeln. Verwenden Sie dazu die Methode `reflect()`:
+// TODO: Sie -> Du (?)
+
+```java
+IntegerState state1 = new SimpleIntegerState(10);
+IntegerState state2 = new SimpleIntegerState();
+state2.reflect(state1);
+```
+
+This will make `state2` always reflect the value of `state1`. If you change `state1`, `state2` will automatically update its value.
+
+```java
+state1.set(20);
+System.out.println(state2.get()); // Outputs: 20
+```
+
+You can only reflect the value of one state at a time. If you use `reflect()` on a state that is already reflecting another state, the reflection will be overwritten.
+
+<Warning>
+	Note that you cannot change the value of a state that reflects another state. If you try to do so, it will throw an `IllegalStateException`.
+	To check whether a state reflects another state, you can use the `isReflecting()` method.
+</Warning>
+
+To detach the reflection, you can use the `detach()` method:
+
+```java
+state2.detach();
+```
+
+Now `state2` will no longer reflect the value of `state1`, and you can set its value independently.
+
+### State Transformations
+
+Most of the time, you will want to transform the value of the state before reflecting it. For this, states provide transformation methods, such as
+`add()`, `subtract()`, `multiply()`, `divide()`, `map()` and countless more. Those methods can take in values or other states as parameters.
+
+Let's have a look at a few examples:
+
+<CodeGroup>
+	```java title="Fma"
+	IntegerState x = new SimpleIntegerState(10);
+	IntegerState y = new SimpleIntegerState(5);
+	IntegerState z = new SimpleIntegerState(2);
+
+	ReadOnlyIntegerState fma = x.multiply(y).add(z);
+	fma.observe((oldValue, newValue) -> {
+		System.out.println("FMA changed from " + oldValue + " to " + newValue);
+	});
+
+	x.set(20); // Outputs: FMA changed from 52 to 102
+	y.set(10); // Outputs: FMA changed from 102 to 202
+	```
+
+	```java title="String length"
+	StringState str = new SimpleStringState("Hello");
+
+	ReadOnlyIntegerState strLength = str.length();
+	strLength.observe((oldValue, newValue) -> {
+		System.out.println("String length changed from " + oldValue + " to " + newValue);
+	});
+
+	str.set("Hello, World!"); // Outputs: String length changed from 5 to 13
+	```
+
+	```java title="Boolean logic"
+	BooleanState a = new SimpleBooleanState(true);
+	BooleanState b = new SimpleBooleanState(false);
+	BooleanState c = new SimpleBooleanState();
+
+	ReadOnlyBooleanState result = a.and(b).or(c);
+	result.observe((oldValue, newValue) -> {
+		System.out.println("Result changed from " + oldValue + " to " + newValue);
+	});
+
+	b.set(true); // Outputs: Result changed from false to true
+	a.set(false); // Outputs: Result changed from true to false
+	c.set(true); // Outputs: Result changed from false to true
+	```
+</CodeGroup>
+
+### Transforming Number States
+
+...
+
+### Custom Transformations
+
+If the provided transformations are not sufficient for your use case, you can create custom transformations using the `Reflect` helper class.
+It provides methods to create new read-only states that change when the provided dependencies change according to a custom function:
+
+```java title="Fma transformation"
+ReadOnlyIntegerState fma = Reflect.createIntegerReflection(() -> {
+	return x.get() * y.get() + z.get(); // assuming x, y and z are IntegerStates
+}, x, y, z);
+```
+
+To create a transformation that creates number state of the most specific applicable type, you can implement it the following way:
+
+```java title="Fma with most specific type"
+ReadOnlyNumberState fma = Reflect.createNumberReflection(NumberState.findCommonNumberType(x, y, z), () -> {
+	return x.doubleValue() * y.doubleValue() + z.doubleValue(); // assuming x, y and z are NumberStates
+}, x, y, z);
+```
+
+If x, y and z are `IntegerState`s, the resulting state will be an `IntegerState`. If even just one is a `DoubleState`, the resulting state will be a `DoubleState`, etc.
+
+<Info>
+	The `Reflect` class also provides helper methods to combine multiple states into a single one, such as `all()`, `none()`, `min()`, `join()`, etc.
+	To join a bunch of string states for instance, instead of chaining `append()` calls, you can use the `concat()` method to avoid creating a
+	bunch of intermediate states:
+
+	```java
+	StringState str1 = new SimpleStringState("Hello");
+	StringState str2 = new SimpleStringState(" ");
+	StringState str3 = new SimpleStringState("World");
+	StringState str4 = new SimpleStringState("!");
+
+	-ReadOnlyStringState joined = str1.append(str2).append(str3).append(str4);
+	+ReadOnlyStringState joined = Reflect.concat(str1, str2, str3, str4);
+	```
+</Info>
+
+## Mirror
+
+Mirroring is a two-way reflection of states. It allows you to link two states together, so that when one changes, the other one is updated as well, and vice versa.
+In order to use mirroring, both states must be mutable and of the same type. Use the `mirror()` method to create a mirror link between two states:
+
+```java
+IntegerState state1 = new SimpleIntegerState(10);
+IntegerState state2 = new SimpleIntegerState(20);
+
+state1.mirror(state2);
+```
+
+This will make `state1` and `state2` always have the same value. If you change `state1`, `state2` will automatically update its value, and vice versa.
+You can have
+
+```java
+state1.set(30);
+System.out.println(state2.get()); // Outputs: 30
+
+state2.set(40);
+System.out.println(state1.get()); // Outputs: 40
+```
+
+<Warning>
+	Note that you cannot mirror a state that reflects another state. If you try to do so, it will throw an `IllegalStateException`.
+	To check whether a state mirrors another state, you can use the `isMirroring()` method.
+</Warning>
+
+To detach the mirror link, you can use the `detachMirror()` method and pass the other state as a parameter:
+
+```java
+state1.detachMirror(state2);
+```
+
+Now `state1` and `state2` will no longer be linked, and you can set their values independently.

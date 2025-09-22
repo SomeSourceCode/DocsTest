@@ -1,0 +1,91 @@
+---
+title: Events
+description: Implement interactivity directly on the nodes themselves!
+---
+
+With SomeGuiApi you can observe and react to events that occur on nodes.
+
+## Listeners
+
+In general, events that occur on GUIs or nodes are handled by registering a listener via a `onEvent()` method, such as `onClick()`.
+You must pass a `Consumer` that takes an event-specific context as a parameter:
+
+```java
+node.onClick(context -> {
+	context.getWhoClicked().sendMessage(Component.text("Node clicked!"));
+});
+```
+
+## Click Events
+
+For every click, an event is fired that can be listened to be several methods, such as `onClick()`, `onRightClick()`, `onMiddleClick()`, etc.
+The order in which they are processed is as follows:
+
+1. `onClick()`: Triggered by every click, regardless of the button used.
+2. `onLeftClick()`: Triggered by left clicks.
+3. `onRightClick()`: Triggered by right clicks.
+4. `onShiftClick()`: Triggered by clicks while holding the shift key.
+5. `onHotbarClick()`: Triggered using a hotbar key (1-9).
+
+The click event provides a context that contains information about the click, such as the player who clicked and the position and type the click.
+
+Furthermore, you can retrieve information about the nodes involved in the event:
+
+- `getSource()` returns the node that was clicked. This is the node that's the lowest in the hierarchy and was actually clicked.
+- `getTarget()` returns the node the listener is executed on.
+
+### Click Event Propagation
+
+Click events are propagated through the GUI hierarchy, starting from the node that was clicked and moving up to its parent nodes. A parent only
+receives the event, if it occurred within its bounds. Even if that's not the case though, the event will be further propagated, skipping that parent.
+
+To stop the propagation of an event, you can call `context.stopPropagation()`. This will prevent the event from being passed to parent nodes.
+
+If you want to mark the event as consumed, you can call `context.setConsumed(true)`. This does not stop the propagation, but it indicates that the
+event has been handled and should not be processed further by other listeners. You can also use `context.isConsumed()` to check if the event has already
+been consumed.\
+\
+Example: Root (entire GUI, id=root), Pane (id=container) (some size and position), GuiItem A/B. Every Node has an id and:
+
+```java
+node.setOnClick(context -> {
+	context.getWhoClicked().sendMessage(Component.text(context.getTarget() + " clicked"));
+});
+```
+
+C has:
+
+```java
+node.setOnClick(context -> {
+	context.getWhoClicked().sendMessage(Component.text("Node C clicked!"));
+	context.stopPropagation(); // Stops the event from propagating to Pane A and Root
+});
+```
+
+Clicking on A:
+
+```
+Pane[id=container] clicked
+Pane[id=root] clicked
+```
+
+Clicking on B:
+
+```
+GuiItem[id=a] clicked
+Pane[id=container] clicked
+Pane[id=root] clicked
+```
+
+Clicking on C:
+
+```
+GuiItem[id=c] clicked
+```
+
+
+// FEATURE IDEA: add `stopPropagation()`
+
+## ...
+
+## Cancelable Events

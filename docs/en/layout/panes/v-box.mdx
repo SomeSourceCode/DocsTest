@@ -1,0 +1,30 @@
+---
+title: VBox
+description: A vertical box layout that arranges its children in a single column.
+---
+
+## Layout
+
+The `VBox` is a type of `Pane` that arranges its children in a single vertical column without wrapping.
+
+<Frame rounded={false} overflowBottom>
+	![VBox Layout](/images/layout-vbox.png)
+</Frame>
+
+## Properties
+
+Apart from the [common properties](layout/panes#shared-pane-properties) that all panes have, the `VBox` has the following specific properties:
+
+### `spacing`
+
+The `spacing` property defines the space between each child in the `VBox`. It is set using the `setSpacing(int spacing)` method.
+
+```java
+vbox.setSpacing(1);
+```
+
+This would produce a layout where each child has a space of 1 slot between them:
+
+<Frame rounded={false} overflowBottom>
+	![VBox Spacing](/images/layout-vbox-spacing.png)
+</Frame>

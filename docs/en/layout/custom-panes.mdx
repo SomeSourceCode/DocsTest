@@ -1,0 +1,67 @@
+---
+title: Create Custom Panes
+shortTitle: Custom Panes
+description: A guide for creating custom layout panes.
+---
+
+If you feel like the default panes provided by SomeGuiApi don't fit your needs, you can create your own custom panes. This page will provide you with steps
+to create custom panes that can be used in your GUI layouts.
+
+<Note>
+	This way of creating custom panes is just a suggestion that follows the same pattern as used by the default panes.
+</Note>
+
+## Extending the `Pane` class
+
+Typically, when creating a pane, you wanna extend the `Pane` class, because it is this one that exposes the `getChildren()` method which allows for
+adding child nodes to the pane:
+
+```java title="MyCustomPane.java" showLineNumbers
+import io.github.somesourcecode.someguiapi.scene.layout.Pane;
+
+public class MyCustomPane extends Pane {
+
+	public MyCustomPane() {
+		super();
+	}
+
+}
+```
+
+Make sure to call the constructor of the superclass, so that the pane is properly initialized.
+
+## Implementing the layout strategy
+
+Currently, your pane acts the same as the normal `Pane`: It leaves every `Node` at it's specified coordinates. To override that default behavior,
+you need to implement the `layoutChildren()` method. This method is called whenever the pane needs to update its layout, for example when a child node is added or removed.
+
+```java title="MyCustomPane.java" showLineNumbers
+import io.github.somesourcecode.someguiapi.scene.layout.Pane;
+
+public class MyCustomPane extends Pane {
+
+	public MyCustomPane() {
+		super();
+	}
+
+	// highlight-start
+	@Override
+	public void layoutChildren() {
+		for (Node child : getChildren()) {
+			// Set the position of the child node based on your custom logic
+			// For example, you could center all children in the pane:
+			int x = (getWidth() - child.getWidth()) / 2;
+			int y = (getHeight() - child.getHeight()) / 2;
+			child.relocate(x, y);
+		}
+	}
+	// highlight-end
+
+}
+```
+
+## Custom Pane Properties
+
+- add properties...
+- call `requestLayout()` / `requestParentLayout()`
+

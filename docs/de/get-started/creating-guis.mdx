@@ -1,0 +1,22 @@
+---
+title: GUIs erstellen
+description: Learn how to build GUIs with SomeGuiApi!
+---
+
+## Erstelle dein erstes GUI
+
+Ein simples GUI zu erstellen ist einfach:
+
+```java
+ChestGui gui = new ChestGui("Mein erstes GUI", 3);
+```
+
+Das erste Argument ist der Titel. Es kann ein `String` oder ein `Component` sein.
+Anschließend folgt eine optionale Anzahl an Reihen, die zwischen `1` und `6` liegen muss.
+Wird keine Zahl angegeben, wird `6` angenommen.\
+\
+Und schon kannst du dein GUI einem Spieler anzeigen:
+
+```java
+gui.show(player);
+```

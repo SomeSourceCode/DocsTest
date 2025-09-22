@@ -1,0 +1,71 @@
+---
+title: States
+description: Make use of observable states to create dynamic and interactive GUIs!
+---
+
+Most properties in SomeGuiApi are not only accessible via getters and setters.
+Instead, they are observable states, providing a way to listen for changes or to interlink them with other states.
+
+## Types of States
+
+There are several types of states in SomeGuiApi: A generic `ObjectState<T>` for any type and one for each common
+primitive type: `BooleanState`, `IntegerState`, `LongState`, `FloatState` and `DoubleState`.
+
+<Info>
+	Although `String` is not a primitive type in Java, there is also a `StringState` available.
+</Info>
+
+## Accessing States
+
+If a property is available as a state, it can be accessed via a getter that is named after the property, followed by `State`.
+For example, to access the `layoutX` state on a `Node`, you can use the `layoutXState()` method:
+
+```java
+Node node = ...;
+IntegerState layoutXState = node.layoutXState();
+```
+
+## Setting and Getting Values
+
+To get the value of a state, you can use the `get()` method:
+
+```java
+int layoutX = layoutXState.get();
+```
+
+To set a new value, you can use the `set()` method:
+
+```java
+layoutXState.set(5);
+```
+
+Note that some states are read-only and do not provide a `set()` method, such as the `xState` or `yState` on a `Node`.
+
+## Observers
+
+A key feature of states is the ability to observe changes. An `Observer` is added to a state via the `observe()` method. You can provide it with
+a lambda expression that takes the old and new value as parameters:
+
+```java
+layoutXState.observe((oldValue, newValue) -> {
+	System.out.println("Layout X changed from " + oldValue + " to " + newValue);
+});
+```
+
+It is guaranteed that `oldValue != newValue` will be true.\
+\
+To remove an observer, you can use the `removeObserver()` method:
+
+```java
+layoutXState.removeObserver(observer);
+```
+
+There's also a shorthand that takes a `Runnable` for adding an observer that doesn't require the old or new value. Since you need the `Observer`
+instance to remove it later, that shorthand returns the `Observer` instance:
+
+```java
+Observer observer = layoutXState.observe(() -> {
+	System.out.println("Layout X changed");
+});
+layoutXState.removeObserver(observer);
+```

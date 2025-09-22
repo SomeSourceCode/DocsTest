@@ -1,0 +1,44 @@
+---
+title: Parent GUIs
+description: Simplify GUI navigation with parent GUIs.
+---
+
+Not only nodes can have parents, but entire GUIs can as well. Though they work a little differently.
+
+## Purpose
+
+Parent GUIs make it easy to navigate between different GUIs. When a GUI is closed, it will automatically return to its parent, if one is set.
+This is particularly useful for GUIs that are part of a larger navigation structure, such as menus or sub-menus.
+
+## Setting a Parent GUI
+
+To set a parent GUI, you can use the `setParent()` method on a GUI:
+
+```java
+subGui.setParent(mainGui);
+```
+
+This will set `mainGui` as the parent of `subGui`. When `subGui` is closed, it will automatically return to `mainGui`.\
+\
+A GUI can only have one parent at a time. If you set a new parent, the old one will be replaced.
+The relationship between parent and child GUIs is one-way, meaning that a parent GUI does not know about its children.
+
+## Navigation with Parent GUIs
+
+SomeGuiApi provides some convenience methods to navigate between GUIs. To navigate to the parent manually, just do:
+
+```java
+subGui.navigateToParent(viewer);
+```
+
+This will return to the parent, if one is set. Otherwise, this method does nothing. If you want to default to closing instead, use:
+
+```java
+subGui.navigateToParentOrClose(viewer);
+```
+
+There's also a way to navigate to a child GUI, meaning to open a new GUI and set the current one as its parent:
+
+```java
+mainGui.navigateTo(subGui, viewer);
+```

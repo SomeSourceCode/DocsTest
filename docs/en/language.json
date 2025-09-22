@@ -1,0 +1,10 @@
+{
+	"categories": {
+		"get-started": "Get Started",
+		"layout": "Layout",
+		"events": "Events",
+		"components": "Components",
+		"states": "States",
+		"miscellaneous": "Miscellaneous"
+	}
+}

@@ -1,0 +1,60 @@
+---
+title: Layout
+description: |
+    Das Layout-System in SomeGuiApi zu verstehen, ist entscheidend für die Erstellung effektiver GUIs.
+    Dieser Guide hilft dir, die Grundlagen des Layout-Systems zu verstehen, einschließlich des Koordinatensystems, der Hierarchie und der Layout-Eigenschaften.
+---
+
+## Layout System
+
+Like most GUI systems, SomeGuiApi uses the typical computer coordinate system, where the origin `(0, 0)` is at the top-left corner of the screen. The x-axis extends to the right, and the y-axis extends downwards.
+This means that as you move right, the x-coordinate increases, and as you move down, the y-coordinate increases.\
+The dimensions align with the slots of Minecraft's inventories.
+
+<Frame rounded={false} overflowBottom>
+	![Layout Axis](/layout-system.png)
+</Frame>
+
+Following that logic, the marked area has the following properties:
+- Coordinates: `(2, 1)`
+- Size: `4x3` (width x height)
+
+## Hierarchy
+
+The layout of a GUI is determined by the layout tree structure, which consists of `Nodes` that can be parents or leaf nodes.
+Each node can have multiple children, but only one parent. `Parents` are usually a type of [`Pane`](/panes), the ultimate leaf nodes will be `GuiItems`.
+
+`Nodes` can be arbitrarily nested, allowing for complex layouts. Note that a node can only be the child of at most one other node.
+The coordinates of a `Node` are always relative to its direct `Parent`. Suppose you add a `GuiItem` at `(1, 1)` inside the above mentioned region, this is
+where it will be placed:
+
+<Frame rounded={false} overflowBottom>
+	![Verschachtelte Nodes](/images/layout-nested-coords.png)
+</Frame>
+
+The root of the layout tree is contained in a `Scene`, which is the top-level container for all GUI elements.
+
+## Layout Properties
+
+Every `Node` has a few basic layout properties:
+
+### `layoutX` and `layoutY`
+
+...
+
+### `translateX` and `translateY`
+
+...
+
+\
+`Regions` are a type of `Node` with additional properties that control their size and clipping:
+
+### `width` and `height`
+
+...
+
+### Clipping
+
+...
+
+## Layout Updates

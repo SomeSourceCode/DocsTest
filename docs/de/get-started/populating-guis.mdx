@@ -1,0 +1,50 @@
+---
+title: Populating GUIs
+description: Populate GUIs with panes and items!
+---
+
+## Scene GUIs
+
+`ChestGui` ist currently the only type of GUI. It is a scene-based GUI, which means it uses a `Scene` to hold its content.
+
+\
+[Image illustrating that point]
+
+
+<Info>
+	Other types of GUIs will be added in the future, such as `AnvilGui`, `BeaconGui`, etc.
+</Info>
+
+### Populating A Scene GUI
+
+Alright, let's break this down with an example using a `ChestGui`. Here's how you get started:
+
+1. **Create a new instance of `ChestGui`:**\
+	Just like you did before!
+
+	```java
+	ChestGui gui = new ChestGui("Title", 3);
+	```
+
+2. **Set up the content inside a root node:**\
+	The content will be living inside a root node of type `Parent`. This can be a `Pane`, for example.
+
+	```java
+	Pane root = new Pane();
+	root.resize(9, 3);
+	root.getChildren().add(/* Content goes here */);
+	```
+
+	<Warning>
+		Remember to resize the root! Otherwise, it won't be visible.
+	</Warning>
+
+3. **Create a `Scene`**\
+	Wrap the root inside a `Scene` and pass it to the GUI:
+
+	```java
+	Scene scene = new Scene(root);
+	gui.setScene(scene);
+	```
+
+And just like that, you've populated a scene-based GUI!

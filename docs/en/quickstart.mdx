@@ -1,0 +1,103 @@
+---
+title: Quickstart
+description: Get started using SomeGuiApi.
+---
+
+## Is This the Right Guide for Me?
+
+Hey! This guide is for developers who know their way around Java.
+
+## Setup Your Dev Environment
+
+Getting your development environment set up is quick and easy. Just follow these steps:
+
+<Steps>
+
+	<Step title="Download The Plugin">
+		Head over to [Github](https://github.com/SomeSourceCode/SomeGuiApi/releases)
+		and download the latest plugin.
+	</Step>
+
+	<Step title="Install The Plugin">
+		Place the downloaded `JAR` file inside your servers `plugins` folder.
+	</Step>
+
+	<Step title="Configure Your Plugin">
+		Ensure that any plugins using SomeGuiApi include it in the `depend` section of their `plugin.yml` file:
+
+		```yaml title="plugin.yml"
+		depend: [SomeGuiApi]
+		```
+	</Step>
+
+	<Step title="Add The Dependency">
+		Finally, add the [dependency](#adding-the-dependency) to your project.
+	</Step>
+
+</Steps>
+
+### Adding The Dependency
+
+<Tabs groupId="build-system">
+
+	<Tab title="Maven" tabId="maven">
+		If you're using Maven, just add the following dependency to your `dependencies` section
+		of your `pom.xml` file.
+
+		```xml title="pom.xml"
+		<dependency>
+			<groupId>io.github.somesourcecode</groupId>
+			<artifactId>someguiapi</artifactId>
+			<version>2.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		```
+	</Tab>
+
+	<Tab title="Gradle" tabId="gradle">
+		For Gradle you need to include the repository and dependency as shown here:
+
+		<CodeGroup>
+			```gradle title="gradle.build"
+			repositories {
+				mavenCentral()
+			}
+
+			dependencies {
+				compileOnly "io.github.somesourcecode:someguiapi:2.1.0"
+			}
+			```
+
+			```kotlin title="gradle.build.kts"
+			repositories {
+				mavenCentral()
+			}
+
+			dependencies {
+				compileOnly("io.github.somesourcecode:someguiapi:2.1.0")
+			}
+			```
+		</CodeGroup>
+	</Tab>
+
+</Tabs>
+
+## Troubleshooting
+
+If you run into any issues or have questions, feel free to ask on the [Discord](https://discord.com).
+
+### Common Issues
+
+<AccordionGroup>
+
+	<Accordion title="ClassNotFoundException">
+		Using the API throwing a `ClassNotFoundException` can have several reasons.
+		- Make sure that the version of your plugin and the API version
+		are compatible, you can check that [Here]().
+	</Accordion>
+
+	<Accordion title="Second Common Issue">
+		And steps to resolve it
+	</Accordion>
+
+</AccordionGroup>

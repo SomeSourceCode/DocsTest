@@ -1,0 +1,107 @@
+---
+title: Panes
+description: Panes provide a way to organize the visual structure of your GUI.
+---
+
+## Purpose
+
+Panes are a fundamental part of the layout system in SomeGuiApi. They allow you to create complex and organized GUIs. Their main purpose is to lay out their children
+and to provide background, etc.
+
+## Adding Children
+
+Every `Pane` provides a `getChildren()` method to access its children. You can add `Nodes` to the pane like this:
+
+```java
+Pane pane = new Pane();
+pane.getChildren().add(...);
+```
+
+You can also add multiple children at once:
+
+```java
+pane.getChildren().addAll(...);
+```
+
+Adding children to a pane will automatically request a layout update, meaning that in the next render pass (e.g. triggered by the `update()` or `show()` method), the pane will lay out its children accordingly.
+
+<Info>
+	`Panes` are `Nodes` themselves, so you can add them to other panes as well. This allows for nested layouts, where a pane can contain other panes, creating a hierarchy of layout containers.
+</Info>
+
+## Layout Strategies
+
+The `Pane` used till now is the basis for all kinds of panes with different layout mechanisms. The _"normal"_ `Pane` does not have a layout strategy at all.
+It just keeps the children's coordinates as they are.
+
+There are other strategies that you can explore on the following pages.
+
+## Shared Pane Properties
+
+All panes share some common properties defined by the basic `Pane`:
+
+### Background
+
+You can set a background for a pane using the `setBackground()` method. There are several different types of backgrounds that you create with the static methods of the `Background` class.
+A background expects `Pixels` as the item information, which are a wrapper around `ItemStack`.
+
+The simplest kind of background is a static background:
+
+```java
+pane.setBackground(Background.fill(
+	Pixel.blank(Material.GRAY_STAINED_GLASS_PANE)
+));
+```
+
+Another provided background is the `checkerboard()`, which - like the name suggests - creates a checkerboard pattern:
+
+```java
+pane.setBackground(Background.checkerboard(
+	Pixel.blank(Material.GRAY_STAINED_GLASS_PANE),
+	Pixel.blank(Material.WHITE_STAINED_GLASS_PANE)
+));
+```
+
+You can also create custom background patterns via a lambda: A background is essentially a function that accepts an `x` and `y` coordinate and returns a `Pixel`:
+
+```java
+pane.setBackground((int x, int y) -> {
+	// Implement your custom background logic here
+	return ...;
+});
+```
+
+<Note>
+	The provided coordinates are relative to the pane, meaning that `(0, 0)` refers to the top-left corner of the pane itself, not the entire GUI.
+</Note>
+
+### Padding
+
+<Frame rounded={false} overflowBottom>
+	![Padding of 1 on each side](/images/layout-padding.png)
+</Frame>
+
+Padding is the space between the pane's border and its children. Every `Pane` provides a `setPadding()` method that accepts an object of type
+`Insets`. This allows you to specify the padding for each side of the pane (top, right, bottom, left).
+
+```java
+pane.setPadding(new Insets(1, 2, 3, 4));
+```
+
+The padding must be applied in the layout calculations by the `Pane` itself. Since the plain `Pane` does not have a layout strategy, it does not apply padding by default.
+All other provided panes will apply the padding automatically.
+
+### Clipping
+
+Clipping restricts the visible area of a pane to its bounds. This means that any content outside the bounds of the pane will not be rendered.
+For example, if a child extends beyond the edges of the pane or is placed outside the pane's bounds, it will not be visible.
+
+You can control the clipping behavior using the `setClipping()` method:
+
+```java
+pane.setClipping(false);
+```
+
+<Info>
+	Clipping is enabled by default.
+</Info>

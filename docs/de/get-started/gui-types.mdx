@@ -1,0 +1,78 @@
+---
+title: GUI-Typen
+description_de: SomeGuiApi stellt verschiedene GUI-Typen bereit.
+---
+
+## GUI-Typen verstehen
+
+GUIs werden in zwei Hauptkategorien unterteilt: Szenenbasierte und statische GUIs.
+
+<Note>
+	Das `Merchant GUI` ist eine Ausnahme und passt nicht in diese Kategorien.
+</Note>
+
+### Scene GUIs
+
+Die meisten GUIs sind szenenbasiert und verfügen über ein Raster von Item-Slots. Wir nennen dieses Raster eine Szene,
+die den Inhalt des GUIs enthält.\
+\
+[Bild, das diesen Punkt veranschaulicht]
+
+<Accordion title="Ein szenenbasiertes GUI füllen">
+	Schauen wir uns das am Beispiel `ChestGui` an. So fängst du an:
+
+	1. **Erstelle eine neue Instanz von `ChestGui`:**\
+		Genau wie zuvor!
+
+		```java
+		ChestGui gui = new ChestGui("Titel", 3);
+		```
+
+	2. **Richte den Inhalt innerhalb eines Root-Knotens ein:**\
+		Dieser Inhalt lebt in einem Root-Knoten vom Typ `Parent`, zum Beispiel einem `Pane`.
+
+		```java
+		Pane root = new Pane();
+		root.resize(9, 3);
+		root.getChildren().add(/* Inhalt hier */);
+		```
+
+		<Warning>
+			Denk daran, den Root-Knoten zu skalieren! Ansonsten wird er nicht sichtbar sein.
+		</Warning>
+
+	3. **Erstelle eine `Scene`**\
+		Wickle den Root-Knoten in eine `Scene` und übergebe sie dem GUI:
+
+		```java
+		Scene scene = new Scene(root);
+		gui.setScene(scene);
+		```
+
+	Nur so hast du ein szenenbasiertes GUI gefüllt!
+</Accordion>
+
+<Info>
+	Typische szenenbasierte GUIs sind solche des Typs `Chest`, `Dropper`, `Hopper`, ...
+</Info>
+
+### Statische GUIs
+
+GUIs, die nur einzelne Item-Slots enthalten, sind statische GUIs. Sie enthalten keine Szene,
+sondern du füllst jeden Slot einzeln.
+
+<Accordion title="Ein statisches GUI füllen">
+	Ich habe diese Funktionalität noch nicht implementiert...
+</Accordion>
+
+<Info>
+	Beispiele sind GUIs des Typs `Anvil`, `Beacon`, `Brewing Stand`, `Furnace`, ...
+</Info>
+
+### Hybride
+
+Hybrid GUIs kombinieren beide Konzepte. Es sind jene GUIs, die sowohl ein Raster als auch einzelne Item-Slots enthalten.
+
+<Info>
+	Ein Beispiel für ein hybrides GUI ist das `WorkbenchGUI`.
+</Info>

@@ -1,149 +1,147 @@
 {
-    "defaultUrl": "quickstart",
-    "languages": [ "en-US", "en-UK", "de-DE", "de-DE" ],
-    "defaultVersion": "#latest-stable",
-    "versions": [
-        {
-            "identifier": "1.0.0",
-            "title": "v1.0.0"
-        },
-        {
-            "identifier": "2.0.0",
-            "title": "v2.0.0"
-        },
-        {
-            "identifier": "2.1.0",
-            "title": "v2.1.0"
-        },
-        {
-            "identifier": "3.0-beta",
-            "title": "v3.0-beta",
-            "stable": false
-        }
-    ],
-    "structure": {
-        "general": [
-            {
-                "url": "quickstart",
-                "path": "quickstart"
-            }
-        ],
-        "categories": [
-            {
-                "title": "Get Started",
-                "version": "2.0.0...",
-                "content": [
-                    {
-                        "url": "creating-guis",
-                        "path": "get-started/creating-guis"
-                    },
-                    {
-                        "url": "gui-types",
-                        "path": "get-started/gui-types",
-                        "content": [
-                            {
-                                "url": "gui-types/chest-gui",
-                                "path": "get-started/gui-types/chest-gui"
-                            },
-                            {
-                                "url": "gui-tpes/barrel-gui",
-                                "path": "get-started/gui-types/barrel-gui",
-                                "version": "#latest"
-                            }
-                        ]
-                    }                  
-                ]
-            },
-            {
-                "title": "Layout",
-                "content": [
-                    {
-                        "url": "layout",
-                        "path": "layout/layout",
-                        "version": "2.1.0;3.0-beta...#latest-stable;2.1.0"
-                    },
-                    {
-                        "url": "layout/panes",
-                        "path": "layout/panes",
-                        "content": [
-                            {
-                                "url": "layout/flow-pane",
-                                "path": "layout/panes/flow-pane"
-                            },
-                            {
-                                "url": "layout/h-box",
-                                "path": "layout/panes/h-box"
-                            },
-                            {
-                                "url": "layout/v-box",
-                                "path": "layout/panes/v-box"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Components",
-                "content": [
-                    {
-                        "url": "components",
-                        "path": "components/components"
-                    },
-                    {
-                        "url": "components/progress-bar",
-                        "path": "components/progress-bar"
-                    }
-                ]
-            },
-            {
-                "title": "Events",
-                "content": [
-                    {
-                        "url": "events",
-                        "path": "events/events",
-                        "content": [
-                            {
-                                "url": "events/click",
-                                "path": "events/type/click"
-                            }
-                        ]
-                    },
-                    {
-                        "url": "event-bubbling",
-                        "path": "events/bubbling"
-                    }
-                ]
-            },
-            {
-                "title": "States",
-                "content": [
-                    {
-                        "url": "states",
-                        "path": "states/states"
-                    },
-                    {
-                        "url": "state-interactions",
-                        "path": "states/state-interactions"
-                    },
-                    {
-                        "url": "state-changes",
-                        "path": "states/state-changes"
-                    },
-                    {
-                        "url": "state-validation",
-                        "path": "states/state-validation"
-                    }
-                ]
-            },
-            {
-                "title": "Data Management",
-                "content": [
-                    {
-                        "url": "data",
-                        "path": "data"
-                    }
-                ]
-            }
-        ]
-    }
+	"versions": [
+		{
+			"id": "3.0.0",
+			"title": "Version 3.0.0"
+		},
+		{
+			"id": "2.1.0",
+			"title": "Version 2.1.0"
+		},
+		{
+			"id": "2.0.0",
+			"title": "Version 2.0.0"
+		},
+		{
+			"id": "1.0.0",
+			"title": "Version 1.0.0"
+		}
+	],
+	"defaultVersion": "#latest-stable",
+	"structure": {
+		"general": [
+			{
+				"path": "quickstart",
+				"file": "quickstart.mdx"
+			}
+		],
+		"categories": [
+			{
+				"id": "get-started",
+				"content": [
+					{
+						"path": "creating-guis",
+						"file": "get-started/creating-guis.mdx"
+					},
+					{
+						"path": "gui-types",
+						"file": [
+							{
+								"matchVersion": "3.0.0",
+								"path": "get-started/gui-types.mdx"
+							}
+						]
+					},
+					{
+						"path": "populating-guis",
+						"file": [
+							{
+								"matchVersion": "...2.1.0",
+								"path": "get-started/populating-guis.mdx"
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "layout",
+				"content": [
+					{
+						"path": "layout",
+						"file": "layout/layout.mdx"
+					},
+					{
+						"path": "layout/panes",
+						"file": "layout/panes.mdx",
+						"content": [
+							{
+								"path": "layout/flow-pane",
+								"file": "layout/panes/flow-pane.mdx"
+							},
+							{
+								"path": "layout/h-box",
+								"file": "layout/panes/h-box.mdx"
+							},
+							{
+								"path": "layout/v-box",
+								"file": "layout/panes/v-box.mdx"
+							}
+						]
+					},
+					{
+						"path": "custom-panes",
+						"file": "layout/custom-panes.mdx"
+					}
+				]
+			},
+			{
+				"id": "events",
+				"content": [
+					{
+						"path": "node-events",
+						"file": "events/node-events.mdx"
+					},
+					{
+						"path": "global-events",
+						"file": "events/global-events.mdx"
+					}
+				]
+			},
+			{
+				"id": "components",
+				"content": [
+					{
+						"path": "gui-item",
+						"file": "components/gui-item.mdx"
+					}
+				]
+			},
+			{
+				"id": "states",
+				"version": "3.0.0...",
+				"content": [
+					{
+						"path": "states",
+						"file": "states/states.mdx"
+					},
+					{
+						"path": "creating-states.mdx",
+						"file": "states/creating-states.mdx"
+					},
+					{
+						"path": "states/linking",
+						"file": "states/linking.mdx"
+					},
+					{
+						"path": "states/dependencies",
+						"file": "states/dependencies.mdx"
+					}
+				]
+			},
+			{
+				"id": "miscellaneous",
+				"content": [
+					{
+						"path": "parent-guis",
+						"file": [
+							{
+								"matchVersion": "2.1.0...",
+								"path": "miscellaneous/parent-guis.mdx"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
 }

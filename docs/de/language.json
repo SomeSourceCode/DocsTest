@@ -1,0 +1,10 @@
+{
+	"categories": {
+		"get-started": "Erste Schritte",
+		"layout": "Layout",
+		"events": "Ereignisse",
+		"components": "Komponenten",
+		"states": "Zustände",
+		"miscellaneous": "Sonstiges"
+	}
+}

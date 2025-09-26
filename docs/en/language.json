@@ -5,6 +5,7 @@
 		"events": "Events",
 		"components": "Components",
 		"states": "States",
-		"miscellaneous": "Miscellaneous"
+		"miscellaneous": "Miscellaneous",
+		"test": "Test"
 	}
 }

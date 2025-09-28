@@ -1,33 +1,35 @@
 ---
-title: Creating Your Own States
-shortTitle: Creating States
-description: Learn how to create and use your own states in SomeGuiApi.
+title: Eigene States erstellen
+shortTitle: States erstellen
+description: Lerne, wie du eigene States in SomeGuiApi erstellen und verwenden kannst.
 ---
 
 <Note>
-	If you don't plan on using your own states and only want to learn how to work the the provided ones, you can skip this page.
+	Wenn du nicht vorhast, eigene States zu verwenden und nur lernen möchtest, wie du mit den bereitgestellten arbeiten kannst, kannst du diese Seite überspringen.
 </Note>
 
-## Creating States
+## States erstellen
 
-Each type of state provides a simple implementation, following the `SimpleXState` pattern. To create a state of type `boolean`, for instance,
-you can use the `SimpleBooleanState` class:
+Jeder Typ von State bietet eine einfache Implementierung, die dem `SimpleXState`-Muster folgt. Um beispielsweise einen State vom Typ `boolean` zu erstellen,
+kannst du die Klasse `SimpleBooleanState` verwenden:
 
 ```java
 BooleanState booleanState = new SimpleBooleanState();
 ```
 
-You can also provide an initial value:
+Es gibt auch eine Überladung, die einen Anfangswert akzeptiert:
 
 ```java
 IntegerState integerState = new SimpleIntegerState(42);
 ```
 
-## Read-Only States
+## Schreibgeschützte States
 
 If you want to provide a read-only view of your state - for example when you're creating your own pane - you can use a `ReadOnlyStateWrapper`.\
-\ Write an example (note for writers): Use an example that makes sense, not just "booleanState" or something like that but a "real" value:
 Let's say you want to create a read-only `gamePhase`, you could implement it as follows:
+
+Wenn du eine schreibgeschützte Ansicht deines States bereitstellen möchtest - zum Beispiel, wenn du deine eigene Pane erstellst - kannst du einen `ReadOnlyStateWrapper` verwenden.\
+Angenommen, du möchtest eine schreibgeschützte `gamePhase` bereitstellen, könntest du sie wie folgt implementieren:
 
 ```java title="Game.java"
 public class Game {
@@ -60,22 +62,24 @@ public class Game {
 }
 ```
 
-Note how the wrapper behaves just like a normal state, but it provides an additional `readOnly()` method that returns a read-only view of the state.
-That means, that inside the `Game` instance, you can get and set the `gamePhase` state using the `set` and `get` methods.\
+Deutsch:
+Wie du sehen kannst, verhält sich der Wrapper wie ein normaler State, bietet jedoch eine zusätzliche `readOnly()`-Methode, die eine schreibgeschützte Ansicht des States zurückgibt.
+Das bedeutet, dass du innerhalb der `Game`-Instanz den `gamePhase`-State mit den `set`- und `get`-Methoden abrufen und festlegen kannst.\
 \
-For an outside user, however, the `gamePhaseState()` method returns a read-only state, which means they can only observe changes but not modify the state.
+Für einen externen Benutzer gibt die `gamePhaseState()`-Methode jedoch einen schreibgeschützten State zurück, was bedeutet, dass er nur Änderungen beobachten, aber den State nicht ändern kann.
 
 <Info>
 	There's a read-only wrapper for [each type of state](/states#types-of-states), such as `ReadOnlyBooleanWrapper`, `ReadOnlyIntegerWrapper`, etc.
 </Info>
 
-## Sanitizing
+## Bereinigen (Sanitizing)
 
-There is currently one problem still in the above example: The `GamePhase` can be set to `null`, which is not a valid value, which in this case
-should not be allowed. To prevent this, all state implementations can override the `sanitize` method, which is called _before_ the value is set
-and determines what the new value should be. By default, it does not alter that value, but you can override it to implement your own logic.\
+Im obigen Beispiel gibt es derzeit noch ein Problem: Die `GamePhase` kann auf `null` gesetzt werden, was kein gültiger Wert ist und in diesem Fall
+nicht zulässig sein sollte. Um dies zu verhindern, können alle State-Implementierungen die Methode `sanitize` überschreiben, die aufgerufen wird,
+_bevor_ der Wert gesetzt wird und festlegt, wie der neue Wert sein soll. Standardmäßig ändert sie diesen Wert nicht, aber Sie können sie überschreiben,
+um Ihre eigene Logik zu implementieren.\
 \
-To fix the above example, let's override the `sanitize` method in the `gamePhaseWrapper` state:
+Um das obige Beispiel zu korrigieren, überschreiben wir die Methode `sanitize` im `gamePhaseWrapper`-Zustand:
 
 ```java title="Game.java"
 // ...
@@ -100,7 +104,7 @@ private ReadOnlyObjectWrapper<GamePhase> gamePhaseStateWrapper() {
 // ...
 ```
 
-Another example of what you could do is to constrain the range of the value, such as only allowing values between 0 and 100 for an `IntegerState`:
+Ein weiteres Beispiel dafür, was du tun könntest, ist die Einschränkung des Wertebereichs, z. B. nur Werte zwischen 0 und 100 für einen `IntegerState
 
 ```java
 IntegerState integerState = new SimpleIntegerState() {
